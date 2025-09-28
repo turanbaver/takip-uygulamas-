@@ -1,0 +1,89 @@
+/* Ajanda sayfası özelleştirmeler */
+
+/* Input gruplarını biraz yükseltilmiş göstermek için */
+.input-group-elevated .input-group-text,
+.input-group-elevated .form-control,
+.input-group-elevated .btn {
+  border-color: var(--border) !important;
+  background: #0d1424 !important;
+}
+
+/* Takvim tablo görünümü */
+.calendar-grid table.calendar-table {
+  width: 100%;
+}
+.calendar-table th, .calendar-table td {
+  width: 14.28%;
+  height: 68px;
+  vertical-align: middle;
+  position: relative;
+  border: 1px solid var(--border);
+}
+.calendar-table th {
+  font-weight: 700;
+  color: var(--text);
+  background: #0d1424;
+}
+.calendar-table td {
+  font-weight: 600;
+  color: var(--text);
+  background: #0b1220;
+  cursor: pointer;
+  transition: background .2s, transform .05s;
+}
+.calendar-table td:hover {
+  background: #111a2c;
+}
+.calendar-table td:active {
+  transform: scale(0.98);
+}
+
+/* Bugün / seçili / durum noktaları */
+.agenda-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.td-today {
+  background: rgba(34,197,94,.18) !important; /* yeşil yumuşak */
+  outline: 1px solid rgba(34,197,94,.45);
+}
+.td-selected {
+  background: rgba(59,130,246,.22) !important; /* mavi yumuşak */
+  outline: 1px solid rgba(59,130,246,.45);
+}
+
+/* Gün durumu (tamam / eksik) */
+.td-all-done::after,
+.td-has-pending::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.td-all-done::after {
+  background: #22c55e; /* tamam - yeşil */
+}
+.td-has-pending::after {
+  background: #f97316; /* eksik/geçmiş - turuncu (kırmızı değil istedin) */
+}
+
+/* Efsane (legend) noktaları */
+.calendar-legend .legend-dot {
+  display:inline-block;
+  width:10px;height:10px;border-radius:50%;
+  margin-right:6px;
+}
+.legend-dot-today { background: #22c55e; }
+.legend-dot-has { background: var(--accent); }
+.legend-dot-all-done { background: #22c55e; }
+.legend-dot-has-pending { background: #f97316; }

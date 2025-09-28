@@ -1,0 +1,111 @@
+/* Gün Detay sayfası */
+
+/* Tarih bandı (hero) */
+.day-hero {
+    background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(147,51,234,.18));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  
+  /* Liste satırı */
+  .task-row {
+    background: #0d1424 !important;
+    border-color: var(--border) !important;
+    padding: 12px 14px;
+    position: relative;
+  }
+  
+  .task-row .row-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .task-row .toggle-check {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .task-row .title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .task-row .task-title {
+    font-weight: 700;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .task-row .task-meta {
+    color: var(--muted);
+    font-size: .84rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .task-row .task-meta .badge-time {
+    background: rgba(59,130,246,.15);
+    border: 1px solid rgba(59,130,246,.25);
+    color: #cfe2ff;
+    padding: .2rem .5rem;
+    border-radius: 999px;
+  }
+  
+  .task-row .right-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1220;
+    color: var(--text);
+    cursor: pointer;
+    transition: transform .08s ease, background .2s ease;
+  }
+  .icon-btn:hover { background: #121826; }
+  .icon-btn:active { transform: scale(.96); }
+  
+  /* Akordeon detay alanı */
+  .task-details {
+    border-top: 1px dashed var(--border);
+    margin-top: 10px;
+    padding-top: 10px;
+    color: var(--text);
+  }
+  .task-details .muted { color: var(--muted); }
+  
+  /* Durum: tamamlandı / gecikmiş */
+  .task-row.completed {
+    background: rgba(34,197,94,.08) !important;
+    border-left: 3px solid #22c55e !important;
+  }
+  .task-row.overdue {
+    background: rgba(239,68,68,.08) !important;     /* kırmızı ama yumuşak */
+    border-left: 3px solid #ef4444 !important;
+  }
+  
+  /* Overdue efsanesi için nokta */
+  .legend-dot {
+    display:inline-block;width:10px;height:10px;border-radius:50%;
+  }
+  .legend-dot.overdue { background:#ef4444; }
+  
+  /* Küçük ekranlarda dokunmatik boşluklar */
+  @media (max-width: 480px){
+    .task-row { padding: 12px; }
+    .icon-btn { width: 36px; height: 36px; }
+  }
+  

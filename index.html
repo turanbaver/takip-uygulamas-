@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Takip Programı — Ana Sayfa</title>
+
+  <!-- Ortak dark tema -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Ana sayfa kart stili -->
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Font Awesome ikonlar -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <header class="app-header sticky-top">
+    <h1>Takip Programı</h1>
+  </header>
+
+  <main class="container">
+    <section class="cards-grid">
+      <!-- Sayaç Kartı -->
+      <a href="pages/counter.html" class="home-card card">
+        <i class="fa-solid fa-stopwatch card-icon"></i>
+        <h2>Sayaç</h2>
+        <p>Zikir ve görev sayacı. Günlük ilerlemeni takip et.</p>
+      </a>
+
+      <!-- Görev Takibi Kartı -->
+      <a href="pages/agenda.html" class="home-card card">
+        <i class="fa-solid fa-list-check card-icon"></i>
+        <h2>Ajanda</h2>
+        <p>Ajandana görev ekle, tamamlandıkça işaretle.</p>
+      </a>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Veriler cihazında saklanır • Offline kullanılabilir</small>
+  </footer>
+
+  <script src="assets/js/index.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* ----- Ortak Dark Tema ----- */
+:root{
+    /* Renkler (Bootstrap dark ile uyumlu tonlar) */
+    --bg: #0b1220;
+    --bg-soft: #121826;      /* kart arka planı */
+    --text: #e5e7eb;
+    --muted: #9aa4b2;
+    --border: rgba(255,255,255,.08);
+  
+    --accent: #3b82f6;       /* mavi */
+    --accent-hover:#2563eb;
+  
+    --radius: 14px;
+    --shadow: 0 6px 20px rgba(0,0,0,.5);
+  }
+  
+  /* Temel */
+  *{ box-sizing: border-box; }
+  html, body{ height:100%; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  
+  /* Header / Footer dokunuşları */
+  header.sticky-top{
+    background: var(--bg-soft) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+  footer .text-secondary{ color: var(--muted) !important; }
+  
+  /* Kartlar (genel) */
+  .card{
+    background: var(--bg-soft) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow);
+  }
+  
+  /* --- Formlar ve butonlar (genel) --- */
+  .form-control{
+    background: #0d1424 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+  }
+  .input-group-text{
+    background: #0d1424 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+  }
+  .btn-primary{
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+  }
+  .btn-primary:hover{
+    background: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+  }
+  .btn-outline-primary{
+    color: var(--text) !important;
+    border-color: var(--accent) !important;
+  }
+  .btn-outline-primary:hover{
+    background: var(--accent) !important;
+    color:#fff !important;
+  }
+  
+  /* Liste uyumu (sayaç/tracker sayfaları için) */
+  .list-group-item{
+    background: #0d1424 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+  }
+  
+  /* Tablo uyumu */
+  .table{
+    --bs-table-bg: #0d1424;
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+  }
+  .table thead th{ font-weight:600; }
+  
+  /* Yardımcılar */
+  .text-muted, .text-secondary{ color: var(--muted) !important; }
+  .rounded-3{ border-radius: calc(var(--radius) - 4px) !important; }
+  
+  /* =============================
+     ANASAYFA KARTLARI İÇİN ÖZEL
+     ============================= */
+  .home-card {
+    transition: transform .2s, box-shadow .2s;
+  }
+  .home-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.6);
+  }
+  .home-card i {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .home-card h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+  }
+  

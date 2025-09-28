@@ -1,0 +1,29 @@
+/* Ekle alanı açıklaması */
+.form-text{
+    color: var(--muted) !important;
+  }
+  
+  /* Listede sağdaki rozet */
+  .badge-soft {
+    background: rgba(59,130,246,.15);
+    color: #9ec5ff;
+    border: 1px solid rgba(59,130,246,.25);
+    padding: .35rem .6rem;
+  }
+  
+  /* “Aç” butonu minimum genişlik */
+  .open-btn{ min-width: 64px; }
+  
+  /* Modal iç stacked günlük liste kartı */
+  .day-card {
+    background:#0d1424;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px;
+  }
+  .day-card .day-title{
+    font-weight:700;
+    margin-bottom:8px;
+    color:#cbd5e1;
+  }
+  

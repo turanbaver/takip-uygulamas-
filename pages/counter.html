@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sayaç</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Ortak dark stil + sayfa stili -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/counter.css" />
+</head>
+<body class="bg-body text-body">
+
+  <!-- HEADER -->
+  <header class="bg-dark border-bottom border-secondary sticky-top">
+    <div class="container d-flex align-items-center gap-2 py-2">
+      <a href="../index.html" class="btn btn-sm btn-outline-light">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h1 class="h5 mb-0"><i class="fa-solid fa-stopwatch me-2"></i>Sayaç</h1>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container my-3">
+    <!-- EKLEME BÖLÜMÜ -->
+    <section class="card bg-dark-subtle border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <label for="taskName" class="form-label fw-semibold">Zikir / Görev ekle</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark text-light border-secondary">
+            <i class="fa-solid fa-plus"></i>
+          </span>
+          <input id="taskName" type="text" class="form-control bg-dark text-light border-secondary" placeholder="Örn: Subhanallah" />
+          <input id="taskMin" type="number" class="form-control bg-dark text-light border-secondary" placeholder="Günlük minimum" />
+          <button id="btnAdd" class="btn btn-primary">
+            Ekle
+          </button>
+        </div>
+        <div class="form-text text-secondary mt-2">
+          Ekledikten sonra listeden seç → detay sayaç ekranına geç.
+        </div>
+      </div>
+    </section>
+
+    <!-- GÖREV LİSTESİ -->
+    <section class="card bg-dark-subtle border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h2 class="h6 mb-0"><i class="fa-solid fa-list me-2"></i>Görevlerim</h2>
+          <button id="btnShowTable" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-table me-1"></i>Tabloyu Aç
+          </button>
+        </div>
+
+        <ul id="taskList" class="list-group list-group-flush rounded-3 overflow-hidden"></ul>
+        <p id="emptyMsg" class="text-secondary small mt-2 mb-0">Henüz görev eklenmedi.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="container pb-4">
+    <p class="text-center text-secondary small mb-0">Veriler cihazında saklanır</p>
+  </footer>
+
+  <!-- MODAL: TABLO / GÜNLÜK LİSTE -->
+  <div class="modal fade" id="tableModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-dark">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-chart-line me-2"></i>Son 30 Günlük Veriler
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs mb-3" id="viewTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="tab-table" data-bs-toggle="tab" data-bs-target="#pane-table" type="button" role="tab">
+                <i class="fa-solid fa-table me-1"></i>Tablo
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tab-list" data-bs-toggle="tab" data-bs-target="#pane-list" type="button" role="tab">
+                <i class="fa-solid fa-list me-1"></i>Günlük Liste
+              </button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!-- TABLO -->
+            <div class="tab-pane fade show active" id="pane-table" role="tabpanel">
+              <div class="table-responsive border rounded">
+                <table id="historyTable" class="table table-dark table-striped table-hover align-middle mb-0"></table>
+              </div>
+            </div>
+
+            <!-- GÜNLÜK LİSTE -->
+            <div class="tab-pane fade" id="pane-list" role="tabpanel">
+              <div id="historyList" class="vstack gap-3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-secondary flex-wrap gap-2">
+          <div class="btn-group me-auto">
+            <button id="btnExportJson" class="btn btn-outline-light">
+              <i class="fa-solid fa-file-arrow-down me-1"></i>JSON
+            </button>
+            <button id="btnExportCsv" class="btn btn-outline-light">
+              <i class="fa-solid fa-file-csv me-1"></i>CSV
+            </button>
+          </div>
+          <div class="btn-group">
+            <label class="btn btn-outline-primary mb-0">
+              <i class="fa-solid fa-file-arrow-up me-1"></i>JSON Yükle
+              <input id="fileImportJson" type="file" accept=".json" hidden>
+            </label>
+            <label class="btn btn-outline-primary mb-0">
+              <i class="fa-solid fa-file-arrow-up me-1"></i>CSV Yükle
+              <input id="fileImportCsv" type="file" accept=".csv" hidden>
+            </label>
+          </div>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core scripts -->
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/counter.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
