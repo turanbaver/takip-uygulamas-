@@ -1,45 +1,126 @@
-/* Not detay/düzenleme sayfası */
+/* assets/css/note_edit.css
+   Not düzenleme sayfası — mobil öncelikli, koyu tema uyumlu
+   - Sticky üst toolbar (kompakt)
+   - İsteğe bağlı floating mini-toolbar + renk paleti paneli
+   - Dokunmatik dostu boyutlar, net ikonlar
+*/
 
-/* Araç çubuğu (sticky klasik) */
+/* ----------------------------- */
+/* Temel tema değişkenleri       */
+/* ----------------------------- */
+:root {
+  --bg: #0b1220;
+  --bg-soft: #0f172a;
+  --border: rgba(255,255,255,.12);
+  --text: #e5e7eb;
+  --muted: #9aa4b2;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --radius: 12px;
+  --shadow: 0 10px 28px rgba(0,0,0,.55);
+}
+
+/* Karanlık bootstrap ile uyum */
+:root,[data-bs-theme="dark"] {
+  --bs-body-bg: var(--bg);
+  --bs-body-color: var(--text);
+}
+
+/* Sayfa genel */
+html {
+  scroll-padding-top: 88px; /* sticky header + toolbar için boşluk */
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Kart gövdeleri */
+.card { background: var(--bg-soft) !important; border-color: var(--border) !important; }
+.card .card-body { padding: 14px; }
+
+/* Header butonları (Kaydet/Sil) */
+header .btn-outline-danger, header .btn-primary { min-width: 84px; }
+
+/* ----------------------------- */
+/* ÜST TOOLBAR (Sticky klasik)   */
+/* ----------------------------- */
 .editor-toolbar {
   position: sticky;
-  top: calc(56px); /* header yüksekliği ~ */
-  z-index: 9;
+  top: 56px; /* header yüksekliği */
+  z-index: 10;
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
+
+.editor-toolbar .btn-group { gap: 4px; }
 .editor-toolbar .btn {
   border-color: var(--border) !important;
+  color: var(--text) !important;
+  padding: .35rem .5rem;
+  line-height: 1;
 }
-.editor-toolbar .btn:hover {
-  background: #121826 !important;
-}
+.editor-toolbar .btn:hover { background: #121826 !important; }
+.editor-toolbar .btn i { font-size: 14px; }
+
+/* Minik “alet çantası” palet */
 .color-grid {
   display: grid;
-  grid-template-columns: repeat(6, 24px);
+  grid-template-columns: repeat(7, 22px); /* minik ve sıkı */
   gap: 8px;
+  padding: 2px 4px;
 }
 .color-swatch {
-  width: 24px; height: 24px;
+  width: 22px; height: 22px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  cursor: pointer;
-}
-.color-swatch:active { transform: scale(.96); }
-
-/* Editör alanı */
-.editor-area {
-  min-height: 40vh; /* mobilde yeterli çalışma alanı */
   outline: none;
-  padding: 8px 10px;
-  border: 1px dashed transparent;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .06s ease, border-color .1s ease;
 }
-.editor-area:focus {
-  border-color: rgba(255,255,255,.15);
+.color-swatch:hover { transform: translateY(-1px); }
+.color-swatch:active { transform: scale(.94); }
+.color-swatch:focus-visible { box-shadow: 0 0 0 2px rgba(59,130,246,.45); border-color: var(--accent); }
+
+/* “Rengi sıfırla” linki */
+#btnColorReset {
+  padding: .25rem .5rem;
+  font-size: 12px;
 }
 
-/* Editör tipografi */
+/* Küçük ekranlarda daha kompakt */
+@media (max-width: 480px) {
+  .editor-toolbar .btn { padding: .32rem .46rem; }
+  .color-grid { grid-template-columns: repeat(6, 20px); gap: 6px; }
+  .color-swatch { width: 20px; height: 20px; border-radius: 5px; }
+}
+
+/* ----------------------------- */
+/* Başlık + Editör alanı         */
+/* ----------------------------- */
+#noteTitle.form-control {
+  background: #0a1324;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: .6rem .75rem;
+  border-radius: 10px;
+}
+#noteTitle::placeholder { color: #7c8696; }
+
+.editor-area {
+  min-height: 50vh;              /* mobilde rahat çalışma alanı */
+  outline: none;
+  padding: 10px 12px;
+  border: 1px dashed transparent;
+  border-radius: 10px;
+  word-break: break-word;
+}
+.editor-area:focus { border-color: rgba(255,255,255,.15); }
+
+/* Tipografi */
 .editor-area h1, .editor-area h2, .editor-area h3 {
   font-weight: 700;
   line-height: 1.2;
@@ -55,81 +136,103 @@
 }
 .editor-area ul, .editor-area ol { padding-left: 1.4em; }
 .editor-area a { color: var(--accent); text-decoration: underline; }
-
-/* Küçük ekranlar için dokunma hedefleri */
-@media (max-width: 480px){
-  .editor-toolbar .btn { padding: .35rem .5rem; }
-}
-
-/* Header butonları */
-header .btn-outline-danger, header .btn-primary {
-  min-width: 84px;
-}
-
-/* Kart gövdeleri */
-.card { background: var(--bg-soft) !important; }
+.editor-area a:hover { color: var(--accent-hover); }
 
 /* Toast */
 .toast .btn { padding: .15rem .5rem; }
 
 /* ----------------------------- */
-/* Yeni: Floating Toolbar + FAB */
+/* FLOATING MINI TOOLBAR + FAB   */
+/* (opsiyonel – JS ile kontrol)  */
 /* ----------------------------- */
 
-/* FAB yuvarlak buton */
+/* FAB — yuvarlak kalem butonu (drag edilebilir JS ile) */
 #btnFabToolbar {
   position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
+  right: 16px;
+  bottom: max(16px, calc(env(safe-area-inset-bottom) + 16px));
+  width: 56px; height: 56px;
   border-radius: 50%;
-  background: var(--accent, #0d6efd);
+  border: none;
+  background: var(--accent);
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 20px;
   z-index: 1050;
   cursor: grab;
-  box-shadow: 0 3px 8px rgba(0,0,0,.4);
-  border: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45);
 }
-#btnFabToolbar:active { cursor: grabbing; }
+#btnFabToolbar:hover { background: var(--accent-hover); }
+#btnFabToolbar:active { cursor: grabbing; transform: scale(.98); }
 
-/* Floating toolbar */
+/* Panel */
 #floatingToolbar {
   position: fixed;
-  bottom: 150px;
-  right: 20px;
+  right: 16px;
+  bottom: calc(16px + 56px + 12px);
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 6px;
-  display: none; /* JS ile açılıp kapanacak */
+  padding: 8px;
+  display: none; /* .active ile aç */
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
   z-index: 1050;
-  max-width: 240px;
+  max-width: 280px;
+  box-shadow: var(--shadow);
 }
 #floatingToolbar.active { display: flex; }
 
-#floatingToolbar .btn {
-  padding: .25rem .4rem;
+/* Mini butonlar */
+#floatingToolbar button.btn,
+#floatingToolbar > button {
+  padding: .28rem .42rem !important;
+  line-height: 1;
   font-size: 14px;
-  border-color: var(--border) !important;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
 }
-#floatingToolbar .btn i {
-  font-size: 14px;
-}
+#floatingToolbar button i { font-size: 14px; }
+#floatingToolbar button:hover { background: #121826; }
 
-/* Renk paleti (küçültülmüş) */
+/* Palette içeride daha kompakt grid */
 #floatingToolbar .color-grid {
-  grid-template-columns: repeat(5, 20px);
+  grid-template-columns: repeat(7, 18px);
   gap: 6px;
 }
 #floatingToolbar .color-swatch {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
+  width: 18px; height: 18px; border-radius: 4px;
 }
+
+/* Safe-area (çentikli telefonlar) */
+@supports(padding: max(0px)) {
+  #btnFabToolbar { right: max(16px, env(safe-area-inset-right)); }
+  #floatingToolbar { right: max(16px, env(safe-area-inset-right)); }
+}
+
+/* ----------------------------- */
+/* Erişilebilirlik & durumlar    */
+/* ----------------------------- */
+button:focus-visible, .btn:focus-visible, .color-swatch:focus-visible, #noteTitle:focus-visible, .editor-area:focus-visible {
+  outline: 2px solid rgba(59,130,246,.5);
+  outline-offset: 2px;
+}
+
+/* Küçük ekranlara ekstra nefes */
+@media (max-width: 380px) {
+  .editor-toolbar .btn i { font-size: 13px; }
+  .editor-toolbar .btn { padding: .3rem .44rem; }
+}
+
+/* Mark etiketi (highlight) kontrast iyileştirme */
+mark {
+  background: rgba(251, 191, 36, .25);
+  color: inherit;
+  padding: 0 .15em;
+  border-radius: 3px;
+}
+
+/* Dropdown (Bootstrap dark) spacing düzeltme */
+.dropdown-menu-dark { border-color: var(--border); }
