@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notlar</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Ortak stil + sayfa stili -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/notes.css" />
+</head>
+<body class="bg-body text-body d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-dark border-bottom border-secondary sticky-top">
+    <div class="container d-flex align-items-center gap-2 py-2">
+      <a href="../index.html" class="btn btn-sm btn-outline-light">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h1 class="h5 mb-0"><i class="fa-regular fa-note-sticky me-2"></i>Notlar</h1>
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <button id="btnOpenTable" class="btn btn-sm btn-outline-primary">
+          <i class="fa-solid fa-table me-1"></i>Tabloyu Aç
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container my-3 flex-grow-1">
+
+    <!-- ARAMA -->
+    <section class="card bg-dark-subtle border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <label for="searchInput" class="form-label small text-secondary">Arama</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark text-light border-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input id="searchInput" type="text" class="form-control bg-dark text-light border-secondary" placeholder="Başlık veya içerikte ara...">
+          <button id="btnClearSearch" class="btn btn-outline-light" type="button" title="Temizle">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- KART IZGARA -->
+    <section>
+      <div id="notesGrid" class="notes-grid"></div>
+      <p id="emptyMsg" class="text-secondary small mt-3 d-none">Henüz not yok. Sağ alttaki <strong>+</strong> ile yeni not ekleyebilirsin.</p>
+    </section>
+
+    <!-- FAB (+) -->
+    <button id="fabAdd" class="fab" aria-label="Yeni not ekle" title="Yeni not ekle">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="container pb-4">
+    <p class="text-center text-secondary small mb-0">Veriler cihazında saklanır • JSON/CSV ile dışa aktarılabilir</p>
+  </footer>
+
+  <!-- MODAL: TABLO + İNDİR/YÜKLE -->
+  <div class="modal fade" id="notesTableModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-dark">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title"><i class="fa-solid fa-table me-2"></i>Tüm Notlar</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive border rounded">
+            <table id="notesTable" class="table table-dark table-striped table-hover align-middle mb-0"></table>
+          </div>
+        </div>
+        <div class="modal-footer border-secondary flex-wrap gap-2">
+          <div class="btn-group me-auto">
+            <button id="btnExportNotesJson" class="btn btn-outline-light">
+              <i class="fa-solid fa-file-arrow-down me-1"></i>JSON
+            </button>
+            <button id="btnExportNotesCsv" class="btn btn-outline-light">
+              <i class="fa-solid fa-file-csv me-1"></i>CSV
+            </button>
+          </div>
+          <div class="btn-group">
+            <label class="btn btn-outline-primary mb-0">
+              <i class="fa-solid fa-file-arrow-up me-1"></i>JSON Yükle
+              <input id="fileImportNotesJson" type="file" accept=".json" hidden>
+            </label>
+            <label class="btn btn-outline-primary mb-0">
+              <i class="fa-solid fa-file-arrow-up me-1"></i>CSV Yükle
+              <input id="fileImportNotesCsv" type="file" accept=".csv" hidden>
+            </label>
+          </div>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE SCRIPTS (JS bir sonraki adımda yazılacak) -->
+  <script src="../assets/js/store_notes.js"></script>
+  <script src="../assets/js/utils_notes.js"></script>
+  <script src="../assets/js/notes.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

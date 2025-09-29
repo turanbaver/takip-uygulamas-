@@ -1,0 +1,99 @@
+/* Notlar (liste) sayfası — kart ızgara + fab + küçük dokunuşlar */
+
+/* Grid: mobilde 1 sütun, >=576px 2 sütun */
+.notes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 576px) {
+    .notes-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  
+  /* Kart */
+  .note-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+    cursor: pointer;
+  }
+  .note-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0,0,0,.55);
+    background: #0d1424;
+  }
+  .note-card .nc-title {
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .note-card .nc-excerpt {
+    color: var(--muted);
+    font-size: .95rem;
+    line-height: 1.35;
+    max-height: 3.2em; /* ~2 satır görünüm */
+    overflow: hidden;
+  }
+  .note-card .nc-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: .85rem;
+  }
+  .note-card .nc-meta .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
+  
+  /* FAB (+) — sağ altta dairesel buton */
+  .fab {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--accent);
+    color: #fff;
+    font-size: 1.2rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 26px rgba(0,0,0,.6);
+    transition: transform .12s ease, background .2s ease, box-shadow .12s ease;
+    z-index: 20;
+  }
+  .fab:hover { background: var(--accent-hover); transform: translateY(-2px); }
+  .fab:active { transform: scale(.98); }
+  
+  /* Tablo */
+  #notesTable {
+    width: 100%;
+  }
+  
+  /* Arama temizle butonu min genişlik */
+  #btnClearSearch { min-width: 44px; }
+  
+  /* Kart içeriğinin tutarlı aralıkları */
+  .note-card .nc-topline {
+    display:flex; align-items:center; gap:10px;
+  }
+  .note-card .nc-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display:inline-flex; align-items:center; justify-content:center;
+    border: 1px solid var(--border);
+    background: #0b1220;
+    color: var(--accent);
+  }
+  

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Not Düzenle</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Ortak + Sayfa CSS -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/note_edit.css" />
+  <style>
+    /* Floating Toolbar & FAB */
+    #btnFabToolbar {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 1050;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: move;
+    }
+    #floatingToolbar {
+      position: fixed;
+      bottom: 5rem;
+      right: 1.5rem;
+      z-index: 1040;
+      display: none;
+      max-width: 90%;
+    }
+    #floatingToolbar.show {
+      display: block;
+    }
+    #floatingToolbar .btn-sm {
+      padding: 0.25rem 0.4rem;
+      font-size: 0.75rem;
+    }
+    #floatingToolbar .color-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 20px);
+      gap: 4px;
+    }
+    #floatingToolbar .color-swatch {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-body text-body d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-dark border-bottom border-secondary sticky-top">
+    <div class="container d-flex align-items-center gap-2 py-2">
+      <a href="notes.html" class="btn btn-sm btn-outline-light" title="Geri">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h1 class="h5 mb-0"><i class="fa-regular fa-note-sticky me-2"></i>Not</h1>
+
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <button id="btnDelete" class="btn btn-sm btn-outline-danger" title="Sil">
+          <i class="fa-solid fa-trash me-1"></i> Sil
+        </button>
+        <button id="btnSave" class="btn btn-sm btn-primary" title="Kaydet">
+          <i class="fa-solid fa-floppy-disk me-1"></i> Kaydet
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container my-3 flex-grow-1">
+    <!-- Başlık + Editör -->
+    <section class="card bg-dark-subtle border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <label for="noteTitle" class="form-label small text-secondary">Başlık (opsiyonel)</label>
+        <input id="noteTitle" type="text" class="form-control bg-dark text-light border-secondary mb-3" placeholder="Başlık yazın...">
+        <div id="editor" class="editor-area border p-2 rounded bg-dark text-light" contenteditable="true" aria-label="Not içeriği" spellcheck="false"></div>
+        <div class="text-secondary small mt-2">
+          <i class="fa-regular fa-clock me-1"></i>
+          <span id="metaTimes">—</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="container pb-4">
+    <p class="text-center text-secondary small mb-0">Değişiklikleri kaydetmeyi unutma.</p>
+  </footer>
+
+  <!-- Floating Toolbar -->
+  <div id="floatingToolbar" class="card bg-dark-subtle shadow-sm p-2">
+    <div class="d-flex flex-wrap align-items-center gap-1">
+      <!-- Biçim -->
+      <button class="btn btn-outline-light btn-sm" data-cmd="bold" title="Kalın"><i class="fa-solid fa-bold"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="italic" title="İtalik"><i class="fa-solid fa-italic"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="underline" title="Altı Çizili"><i class="fa-solid fa-underline"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="removeFormat" title="Temizle"><i class="fa-solid fa-eraser"></i></button>
+
+      <!-- Başlık -->
+      <button class="btn btn-outline-light btn-sm" data-cmd="formatBlock" data-value="H1" title="H1">H1</button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="formatBlock" data-value="H2" title="H2">H2</button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="formatBlock" data-value="P" title="Paragraf">P</button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="blockquote" title="Alıntı"><i class="fa-solid fa-quote-left"></i></button>
+
+      <!-- Listeler -->
+      <button class="btn btn-outline-light btn-sm" data-cmd="insertUnorderedList" title="Liste"><i class="fa-solid fa-list-ul"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="insertOrderedList" title="Numaralı"><i class="fa-solid fa-list-ol"></i></button>
+
+      <!-- Hizalama -->
+      <button class="btn btn-outline-light btn-sm" data-cmd="justifyLeft" title="Sola"><i class="fa-solid fa-align-left"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="justifyCenter" title="Ortala"><i class="fa-solid fa-align-center"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="justifyRight" title="Sağa"><i class="fa-solid fa-align-right"></i></button>
+
+      <!-- Renk -->
+      <div class="dropdown">
+        <button class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="Renk"><i class="fa-solid fa-palette"></i></button>
+        <div class="dropdown-menu dropdown-menu-dark p-2 color-grid">
+          <button class="color-swatch" data-color="#e5e7eb" style="background:#e5e7eb"></button>
+          <button class="color-swatch" data-color="#93c5fd" style="background:#93c5fd"></button>
+          <button class="color-swatch" data-color="#fca5a5" style="background:#fca5a5"></button>
+          <button class="color-swatch" data-color="#86efac" style="background:#86efac"></button>
+          <button class="color-swatch" data-color="#fde68a" style="background:#fde68a"></button>
+          <button class="color-swatch" data-color="#a78bfa" style="background:#a78bfa"></button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item small" id="btnColorReset">Rengi sıfırla</button>
+        </div>
+      </div>
+
+      <!-- Link -->
+      <button class="btn btn-outline-light btn-sm" id="btnInsertLink" title="Bağlantı"><i class="fa-solid fa-link"></i></button>
+
+      <!-- Undo/Redo -->
+      <button class="btn btn-outline-light btn-sm" data-cmd="undo" title="Geri"><i class="fa-solid fa-rotate-left"></i></button>
+      <button class="btn btn-outline-light btn-sm" data-cmd="redo" title="İleri"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Floating Button -->
+  <button id="btnFabToolbar" class="btn btn-primary shadow">
+    <i class="fa-solid fa-pen"></i>
+  </button>
+
+  <!-- SİLME MODALI -->
+  <div class="modal fade" id="deleteNoteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation me-2"></i>Notu Sil</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-0">Bu notu silmek istediğine emin misin?</p>
+        </div>
+        <div class="modal-footer border-secondary">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+          <button id="btnDeleteConfirm" class="btn btn-outline-danger">
+            <i class="fa-solid fa-trash me-1"></i>Sil
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNDO TOAST -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="undoToast" class="toast text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body d-flex align-items-center gap-2">
+        <i class="fa-solid fa-circle-check text-success"></i>
+        Not silindi.
+        <button id="btnUndoDelete" class="btn btn-sm btn-outline-light ms-auto">Geri Al</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/store_notes.js"></script>
+  <script src="../assets/js/utils_notes.js"></script>
+  <script src="../assets/js/note_edit.js"></script>
+  <script>
+    // FAB tıklama -> toolbar aç/kapat
+    const fab = document.getElementById("btnFabToolbar");
+    const toolbar = document.getElementById("floatingToolbar");
+    fab.addEventListener("click", () => {
+      toolbar.classList.toggle("show");
+    });
+
+    // FAB sürükle
+    let isDragging = false, offsetX, offsetY;
+    fab.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - fab.getBoundingClientRect().left;
+      offsetY = e.clientY - fab.getBoundingClientRect().top;
+      e.preventDefault();
+    });
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      fab.style.left = e.clientX - offsetX + "px";
+      fab.style.top = e.clientY - offsetY + "px";
+      fab.style.bottom = "auto";
+      fab.style.right = "auto";
+    });
+    document.addEventListener("mouseup", () => { isDragging = false; });
+  </script>
+</body>
+</html>
